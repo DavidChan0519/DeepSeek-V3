@@ -408,15 +408,15 @@ class MLA(nn.Module):
     """
     def __init__(self, args: ModelArgs):
         super().__init__()
-        self.dim = args.dim
-        self.n_heads = args.n_heads
+        self.dim = args.dim   #7168
+        self.n_heads = args.n_heads # 128
         self.n_local_heads = args.n_heads // world_size
-        self.q_lora_rank = args.q_lora_rank
-        self.kv_lora_rank = args.kv_lora_rank
-        self.qk_nope_head_dim = args.qk_nope_head_dim
-        self.qk_rope_head_dim = args.qk_rope_head_dim
-        self.qk_head_dim = args.qk_nope_head_dim + args.qk_rope_head_dim
-        self.v_head_dim = args.v_head_dim
+        self.q_lora_rank = args.q_lora_rank # 1536
+        self.kv_lora_rank = args.kv_lora_rank # 512
+        self.qk_nope_head_dim = args.qk_nope_head_dim # 128
+        self.qk_rope_head_dim = args.qk_rope_head_dim # 64
+        self.qk_head_dim = args.qk_nope_head_dim + args.qk_rope_head_dim # 128 + 64 = 192
+        self.v_head_dim = args.v_head_dim # 128
 
         if self.q_lora_rank == 0:
             self.wq = ColumnParallelLinear(self.dim, self.n_heads * self.qk_head_dim)
